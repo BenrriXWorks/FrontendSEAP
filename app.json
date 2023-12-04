@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "FrontendSEAP",
+    "slug": "FrontendSEAP",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "FrontendSEAP"
+}
