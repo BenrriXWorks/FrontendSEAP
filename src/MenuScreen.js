@@ -14,6 +14,8 @@ const MenuScreen = ({ navigation }) => {
 
   const handleVerMapa = () => {
     // Lógica para la opción "Ver mapa"
+    navigation.navigate("Mapa");
+
   };
 
   const handleCerrarSesion = () => {
