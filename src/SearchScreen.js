@@ -7,12 +7,16 @@ const App = ({ navigation }) => {
   const [nombre, setNombre] = useState('');
   const [rut, setRut] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [area, setArea] = useState('');
+  const [area, setArea] = useState('Todas');
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigateToMenuPrincipal = () => {
     navigation.navigate('MenuPrincipal');
   };
+
+  const pressVerOpciones = () => {
+    navigation.navigate('RegistrarVisitas');
+  }
 
   const renderAreaItem = ({ item }) => (
     <TouchableOpacity
@@ -63,7 +67,7 @@ const App = ({ navigation }) => {
         <View style={styles.formField}>
           <Text style={styles.label}>ÁREA</Text>
           <TouchableOpacity style={styles.pickerContainer} onPress={() => setModalVisible(true)}>
-            <Text style={styles.areaText}>{area || 'Todas'}</Text>
+            <Text style={styles.areaText}>{area}</Text>
           </TouchableOpacity>
 
           <Modal
@@ -90,7 +94,7 @@ const App = ({ navigation }) => {
           </Modal>
         </View>
 
-        <TouchableOpacity style={styles.largeButton}>
+        <TouchableOpacity style={styles.largeButton} onPress={pressVerOpciones}>
           <Text style={styles.largeButtonText}>VER OPCIONES</Text>
         </TouchableOpacity>
 

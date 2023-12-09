@@ -8,6 +8,7 @@ import LoginScreen from "./src/LoginScreen";
 import FormularioScreen from "./src/FormularioScreen";
 import MenuScreen from "./src/MenuScreen";
 import SearchScreen from "./src/SearchScreen";
+import RegistrarVisitas from "./src/RegistrarVisitas"
 
 const Stack = createNativeStackNavigator();
 
@@ -26,24 +27,20 @@ export default function App() {
               gestureEnabled: false,
             }}
           >
-            <Stack.Screen
-              name="Login"
+            <Stack.Screen name="Login"
               component={LoginScreen}
-              options={{
-                title: "SEAP",
-              }}
             />
-            <Stack.Screen
-              name="Formulario"
+            <Stack.Screen name="Formulario"
               component={FormularioScreen}
             />
-            <Stack.Screen
-              name="MenuPrincipal"
+            <Stack.Screen name="MenuPrincipal"
               component={MenuScreen}
             />
-            <Stack.Screen
-              name="SearchScreen"
+            <Stack.Screen name="SearchScreen"
               component={SearchScreen}
+            />
+            <Stack.Screen name="RegistrarVisitas"
+              component={RegistrarVisitas}
             />
           </Stack.Navigator>
         </NavigationContainer>
