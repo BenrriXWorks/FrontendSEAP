@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "./src/LoginScreen";
 import FormularioScreen from "./src/FormularioScreen";
 import MenuScreen from "./src/MenuScreen";
+import SearchScreen from "./src/SearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,10 @@ export default function App() {
             <Stack.Screen
               name="MenuPrincipal"
               component={MenuScreen}
+            />
+            <Stack.Screen
+              name="SearchScreen"
+              component={SearchScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

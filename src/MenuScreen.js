@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 const MenuScreen = ({ navigation }) => {
   const handleHacerVisita = () => {
     // Lógica para la opción "Hacer visita"
+    navigation.navigate("SearchScreen");
   };
 
   const handleVerVisitasEnEspera = () => {
