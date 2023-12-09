@@ -74,27 +74,29 @@ const App = ({ navigation }) => {
         </View>
 
         <View style={styles.doubleInputContainer}>
-            <View style={[styles.doubleInput, { marginRight: 10 }]}>
-            <Text style={styles.label}>LITROS</Text>
-            <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={litrosValue}
-                onChangeText={(text) => setLitrosValue(text)}
-                placeholder='-'
-            />
-            </View>
-            <View style={styles.doubleInput}>
-            <Text style={styles.label}>CLORADO [MG/L]</Text>
-            <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                value={cloradoValue}
-                onChangeText={(text) => setCloradoValue(text)}
-                placeholder='-'
-            />
-            </View>
-        </View>
+          <View style={[styles.doubleInput, { marginRight: 10 }]}>
+              <Text style={styles.label}>LITROS</Text>
+              <TextInput
+                  style={[styles.input, { textAlign: 'right' }]} // Alineación a la derecha
+                  keyboardType="numeric"
+                  value={litrosValue}
+                  onChangeText={(text) => setLitrosValue(text)}
+                  placeholder='-'
+                  textAlign='right'
+              />
+          </View>
+          <View style={styles.doubleInput}>
+              <Text style={styles.label}>CLORADO [MG/L]</Text>
+              <TextInput
+                  style={[styles.input, { textAlign: 'right' }]} // Alineación a la derecha
+                  keyboardType="numeric"
+                  value={cloradoValue}
+                  onChangeText={(text) => setCloradoValue(text)}
+                  placeholder='-'
+                  textAlign='right'
+              />
+          </View>
+      </View>
 
         <View style={styles.formField}>
           <Text style={styles.label}>COMENTARIOS</Text>

@@ -9,6 +9,7 @@ import FormularioScreen from "./src/FormularioScreen";
 import MenuScreen from "./src/MenuScreen";
 import SearchScreen from "./src/SearchScreen";
 import RegistrarVisitas from "./src/RegistrarVisitas"
+import MapScreen from "./src/Mapa"
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,9 @@ export default function App() {
             />
             <Stack.Screen name="RegistrarVisitas"
               component={RegistrarVisitas}
+            />
+            <Stack.Screen name="Mapa"
+              component={MapScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
