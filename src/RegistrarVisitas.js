@@ -35,9 +35,9 @@ const App = ({ navigation }) => {
 
       <View style={styles.form}>
         <View style={styles.formField}>
-          <Text style={[styles.label, { color: 'white' }]}>RUT CLIENTE</Text>
+          <Text style={[styles.label, { color: 'white', marginTop: -10 }]}>RUT CLIENTE</Text>
           <TextInput
-            style={[styles.input, { backgroundColor: 'black', color: 'white' }]}
+            style={[styles.input, { backgroundColor: 'black', color: 'white', marginBottom: -15 }]} // Ajuste del marginBottom
             value={rut}
             editable={false}
           />
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 10,
     borderRadius: 10,
+    fontSize: 20
   },
   doubleInputContainer: {
     flexDirection: 'row',
