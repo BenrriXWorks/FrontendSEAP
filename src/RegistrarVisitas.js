@@ -30,7 +30,6 @@ const App = ({ navigation, route }) => {
 
   const { cliente } = route.params; // Objeto cliente que recibe
 
-
   useEffect(() => {
     // Mostrar el objeto del cliente en un alerta al cargar la pantalla
     let nombre = cliente.nombre.split(' ');
@@ -241,13 +240,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#EA3B44',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 30,
-    borderRadius: 15,
-    width: 80,
+    height: 40,
+    borderRadius: 25,
+    width: '40%',
+    marginTop: 10
   },
   smallButtonText: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
     fontFamily: 'Arial',
   },

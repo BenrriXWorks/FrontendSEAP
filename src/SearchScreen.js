@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 75,
-    marginBottom: 30,
-    marginTop: 30,
+    marginBottom: 20,
+    marginTop: 10,
     borderTopLeftRadius: 37.5, // Semi-círculo izquierdo
     borderBottomLeftRadius: 37.5, // Semi-círculo izquierdo
     borderTopRightRadius: 37.5, // Semi-círculo derecho
@@ -189,9 +189,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#EA3B44',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 30,
-    borderRadius: 15,
-    width: 80,
+    height: 35,
+    borderRadius: 25,
+    width: "40%",
   },
   smallButtonText: {
     color: 'white',

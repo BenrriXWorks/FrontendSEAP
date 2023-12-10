@@ -6,27 +6,27 @@ import { LinearGradient } from 'expo-linear-gradient' // Instalar expo install e
 const clientes = [
   {
     nombre: 'Roberto Javier Parra Candia',
-    rut: '11111111-1',
+    rut: '1.222.333-4',
     telefono: '123456789',
-    direccion: 'Dirección Cliente 1',
+    direccion: 'Salida norte KM 2',
     area: 'Bonifacio',
-    estado: 'S/V',
+    estado: '11/12/23',
   },
   {
     nombre: 'Adrian Gabriel Norway Smith',
-    rut: '22222222-2',
+    rut: '12.345.678-9',
     telefono: '987654321',
-    direccion: 'Dirección Cliente 2',
+    direccion: 'Salida norte KM3',
     area: 'Otro',
-    estado: 'S/V',
+    estado: '31/21/22',
   },
   {
     nombre: 'Benjamin Enrique Parra Barbet',
-    rut: '11111111-1',
+    rut: '21.142.295-5',
     telefono: '123456789',
-    direccion: 'Dirección Cliente 1',
+    direccion: 'Errazuriz 3041',
     area: 'Bonifacio',
-    estado: 'E',
+    estado: '09/10/02',
   },
   {
     nombre: 'Cliente 2',
@@ -34,7 +34,7 @@ const clientes = [
     telefono: '987654321',
     direccion: 'Dirección Cliente 2',
     area: 'Otro',
-    estado: 'N/E',
+    estado: '05/05/05',
   },
   {
     nombre: 'Cliente 1',
@@ -42,7 +42,7 @@ const clientes = [
     telefono: '123456789',
     direccion: 'Dirección Cliente 1',
     area: 'Bonifacio',
-    estado: 'E',
+    estado: '20/20/20',
   },
   {
     nombre: 'Cliente 2',
@@ -50,7 +50,7 @@ const clientes = [
     telefono: '987654321',
     direccion: 'Dirección Cliente 2',
     area: 'Otro',
-    estado: 'N/E',
+    estado: '10/02/4',
   },
   // Puedes agregar más objetos de clientes según sea necesario
 ];
@@ -118,7 +118,7 @@ const AppScreen = ({ navigation }) => {
                             <Text style={{ fontWeight: 'bold' }}>{`${cliente.nombre}\n${cliente.rut}\n${cliente.telefono}\n${cliente.direccion}`}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Text style={{ color: 'blue', textAlign: 'center', flex: 1, fontWeight: 'bold' }}>{cliente.area}</Text>
-                                <Text style={{ textAlign: 'right', fontWeight: 'bold' }}>ESTADO: {cliente.estado}</Text>
+                                <Text style={{ textAlign: 'right', fontWeight: 'bold' }}>{cliente.estado}</Text>
                             </View>
                             </View>
                             {/* Flecha presionable */}
