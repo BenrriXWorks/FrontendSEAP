@@ -10,6 +10,7 @@ import MenuScreen from "./src/MenuScreen";
 import SearchScreen from "./src/SearchScreen";
 import RegistrarVisitas from "./src/RegistrarVisitas"
 import MapScreen from "./src/Mapa"
+import SeleccionarCliente from "./src/SeleccionarCliente"
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,9 @@ export default function App() {
             />
             <Stack.Screen name="Mapa"
               component={MapScreen}
+            />
+            <Stack.Screen name="SeleccionarCliente"
+              component={SeleccionarCliente}
             />
           </Stack.Navigator>
         </NavigationContainer>

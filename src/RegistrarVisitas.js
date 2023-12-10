@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Modal, TouchableWithoutFeedback, FlatList } from 'react-native';
 
-const App = ({ navigation }) => {
+const App = ({ navigation, route }) => {
+    const [nombre, setNombre] = useState('ERR_NOM');
     const [rut, setRut] = useState('12.345.678-9');
     const [estado, setEstado] = useState('ENTREGADO');
     const [modalVisible, setModalVisible] = useState(false);
@@ -27,21 +28,43 @@ const App = ({ navigation }) => {
     </TouchableOpacity>
   );
 
+  const { cliente } = route.params; // Objeto cliente que recibe
+
+
+  useEffect(() => {
+    // Mostrar el objeto del cliente en un alerta al cargar la pantalla
+    let nombre = cliente.nombre.split(' ');
+    setNombre(nombre[0] + (nombre[2] == undefined ? "" : " " + nombre[2].charAt(0) + "."));
+    setRut(cliente.rut);
+  }, []);
+
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>REGISTRAR UNA VISITA</Text>
-      </View>
+    <View style={styles.header}>
+      <Text style={styles.headerText}>REGISTRAR UNA VISITA</Text>
+    </View>
 
-      <View style={styles.form}>
-        <View style={styles.formField}>
-          <Text style={[styles.label, { color: 'white', marginTop: -10 }]}>RUT CLIENTE</Text>
+    <View style={styles.form}>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={[styles.formField, { flex: 1, marginRight: 10 }]}>
+          <Text style={[styles.label, { color: 'white', marginTop: -10 }]}>NOMBRE</Text>
           <TextInput
-            style={[styles.input, { backgroundColor: 'black', color: 'white', marginBottom: -15 }]} // Ajuste del marginBottom
+            style={[styles.input, { backgroundColor: 'black', color: 'white', marginBottom: -15 }]}
+            editable={false}
+            value={nombre}
+          />
+        </View>
+        
+        <View style={[styles.formField, { flex: 1, marginLeft: 10 }]}>
+          <Text style={[styles.label, { color: 'white', marginTop: -10 }]}>RUT</Text>
+          <TextInput
+            style={[styles.input, { backgroundColor: 'black', color: 'white', marginBottom: -15 }]}
             value={rut}
             editable={false}
           />
         </View>
+      </View>
 
         <View style={[styles.formField, { marginTop: 10 }]}>
           <Text style={[styles.label, { marginTop: 5 }]}>ESTADO</Text>

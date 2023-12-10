@@ -15,7 +15,7 @@ const App = ({ navigation }) => {
   };
 
   const pressVerOpciones = () => {
-    navigation.navigate('RegistrarVisitas');
+    navigation.navigate('SeleccionarCliente');
   }
 
   const renderAreaItem = ({ item }) => (
