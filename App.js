@@ -12,6 +12,7 @@ import RegistrarVisitas from "./src/RegistrarVisitas"
 import MapScreen from "./src/Mapa"
 import SeleccionarCliente from "./src/SeleccionarCliente"
 import ConfirmScreen from "./src/ConfirmScreen"
+import VisitasEnEspera from "./src/VisitasEnEspera"
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,9 @@ export default function App() {
             />
             <Stack.Screen name="ConfirmScreen"
               component={ConfirmScreen}
+            />
+            <Stack.Screen name="VisitasEnEspera"
+              component={VisitasEnEspera}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -97,6 +97,7 @@ function mod11(rutStr) {
 export default function LoginScreen({ navigation }) {
   const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [initialSwitchState, setInitialSwitchState] = useState(false);
 
@@ -147,13 +148,14 @@ export default function LoginScreen({ navigation }) {
   const sendRequest = async (user, passw) => {
     try {
       /* COLOCAR AQUI LA IP DEL SERVIDOR */
-      const apiUrl = "http://x/login"
+
+      /*
+      const apiUrl = "http://192.168.8.111:3000/login";
 
       const requestBody = {
         u: user,
         p: passw,
       };
-      /*
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -165,38 +167,35 @@ export default function LoginScreen({ navigation }) {
         throw new Error("Error en la solicitud al backend");
       }
 
-      
       const responseData = await response.json();
-      console.log(responseData.json());
       */
 
+      const responseData = {success:"ok", name:"Javier"};
+
       // Aquí puedes realizar acciones adicionales en función de la respuesta
-      if (true || responseData.success) {
+      if (responseData.success) {
         console.log("Inicio de sesión exitoso");
         if (rememberMe) {
           try {
             await SecureStore.setItemAsync("rut", rut);
             await SecureStore.setItemAsync("password", password);
+            //await SecureStore.setItemAsync("name", { userName });
             console.log("Datos guardados de manera segura.");
-          } 
-          catch (error) {
+          } catch (error) {
             console.error("Error al guardar los datos:", error);
           }
-        } 
-        else {
+        } else {
           try {
             await SecureStore.deleteItemAsync("rut");
             await SecureStore.deleteItemAsync("password");
             console.log("No se guardaran los datos de inicio de sesion");
-          } 
-          catch (error) {
+          } catch (error) {
             console.log("Err: " + error);
           }
         }
-        navigation.navigate("MenuPrincipal");
+        navigation.navigate("MenuPrincipal", { name: responseData.name });
       } 
-    } 
-    catch (error) {
+    } catch (error) {
       Alert.alert("Error de inicio de sesión");
       console.log("ERROR:", error);
     }

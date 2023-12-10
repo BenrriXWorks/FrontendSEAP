@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'sans-serif',
   },
   headerBlue: {
     backgroundColor: '#1069B4',
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'sans-serif',
     marginBottom: 5,
   },
   input: {
@@ -232,7 +230,6 @@ const styles = StyleSheet.create({
   },
   areaItemText: {
     fontSize: 18,
-    fontFamily: 'sans-serif',
   },
   largeButton: {
     backgroundColor: '#00A651',
@@ -251,7 +248,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    fontFamily: 'sans-serif',
   },
   smallButton: {
     backgroundColor: '#EA3B44',
@@ -265,7 +261,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     fontWeight: 'bold',
-    fontFamily: 'sans-serif',
   },
   center: {
     alignItems: 'center',
