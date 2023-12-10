@@ -139,8 +139,8 @@ const App = ({ navigation, route }) => {
           </View>
         </View>
 
-        <TouchableOpacity style={[styles.largeButton, { alignSelf: 'center' }]}>
-          <Text style={styles.largeButtonText}>CONTINUAR</Text>
+        <TouchableOpacity onPress={()=>{navigation.navigate("ConfirmScreen",{state:"local"})}} style={[styles.largeButton, { alignSelf: 'center' }]}>
+          <Text style={styles.largeButtonText} >CONFIRMAR</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.smallButton, { alignSelf: 'center' }]} onPress={() => navigation.goBack()}>

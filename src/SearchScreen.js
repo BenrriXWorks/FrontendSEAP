@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, FlatList, TouchableWithoutFeedback } from 'react-native';
 
 const areasMock = ['Todas', 'Área 1', 'Área 2', 'Área 3', 'Área 4'];
@@ -15,7 +15,8 @@ const App = ({ navigation }) => {
   };
 
   const pressVerOpciones = () => {
-    navigation.navigate('SeleccionarCliente');
+    var searchInfo = {nombre:nombre, rut:rut, direccion:direccion, area:area};
+    navigation.navigate('SeleccionarCliente', { searchInfo });
   }
 
   const renderAreaItem = ({ item }) => (
@@ -29,6 +30,7 @@ const App = ({ navigation }) => {
       <Text style={styles.areaItemText}>{item}</Text>
     </TouchableOpacity>
   );
+
 
   return (
     <View style={styles.container}>

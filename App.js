@@ -11,6 +11,7 @@ import SearchScreen from "./src/SearchScreen";
 import RegistrarVisitas from "./src/RegistrarVisitas"
 import MapScreen from "./src/Mapa"
 import SeleccionarCliente from "./src/SeleccionarCliente"
+import ConfirmScreen from "./src/ConfirmScreen"
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,9 @@ export default function App() {
             />
             <Stack.Screen name="SeleccionarCliente"
               component={SeleccionarCliente}
+            />
+            <Stack.Screen name="ConfirmScreen"
+              component={ConfirmScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

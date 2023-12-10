@@ -147,12 +147,13 @@ export default function LoginScreen({ navigation }) {
   const sendRequest = async (user, passw) => {
     try {
       /* COLOCAR AQUI LA IP DEL SERVIDOR */
-      const apiUrl = "http:// - - - /login";
+      const apiUrl = "http://x/login"
 
       const requestBody = {
         u: user,
         p: passw,
       };
+      /*
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -164,10 +165,13 @@ export default function LoginScreen({ navigation }) {
         throw new Error("Error en la solicitud al backend");
       }
 
+      
       const responseData = await response.json();
+      console.log(responseData.json());
+      */
 
       // Aquí puedes realizar acciones adicionales en función de la respuesta
-      if (responseData.success) {
+      if (true || responseData.success) {
         console.log("Inicio de sesión exitoso");
         if (rememberMe) {
           try {
@@ -191,9 +195,6 @@ export default function LoginScreen({ navigation }) {
         }
         navigation.navigate("MenuPrincipal");
       } 
-      else {
-        Alert.alert("Error de inicio de sesión: ", "RUT o contraseña inválida");
-      }
     } 
     catch (error) {
       Alert.alert("Error de inicio de sesión");

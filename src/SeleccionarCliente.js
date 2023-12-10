@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, View, Text, ScrollView, TouchableOpacity, Image, Modal, Button, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient' // Instalar expo install expo-linear-gradient
 
@@ -57,7 +57,7 @@ const clientes = [
 
 
 
-const AppScreen = ({ navigation }) => {
+const AppScreen = ({ navigation, route }) => {
     const [selectedCliente, setSelectedCliente] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [tintColorIndex, setTintColorIndex] = useState(0);
@@ -81,6 +81,13 @@ const AppScreen = ({ navigation }) => {
       //Alert.alert("Flecha presionada en cliente: " + cliente.nombre);
       navigation.navigate('RegistrarVisitas', { cliente })
     };
+
+    // Recuperar los parametros
+    const { searchInfo } = route.params;
+
+    useEffect(()=>{
+        //console.log(JSON.stringify(searchInfo));
+    }, []);
   
     return (
       <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
