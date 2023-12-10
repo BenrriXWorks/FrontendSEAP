@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Modal, FlatList, TouchableWithoutFeedback, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-const areasMock = ['BONIFACIO', 'LAS GAVIOTAS', 'LAS PARRAS', 'LAS MINAS', 'CASA BLANCA', 'MORROMPULLI', 'SANTO DOMINGO'];
+const areasMock = [
+  { name: 'BONIFACIO', coordinates: { latitude: -39.8278, longitude: -73.2291 } },
+  { name: 'LAS GAVIOTAS', coordinates: { latitude: -39.8281, longitude: -73.2302 } },
+  { name: 'LAS PARRAS', coordinates: { latitude: -39.85322824935274, longitude: -73.19674413823677 } },
+  { name: 'LAS MINAS', coordinates: { latitude: -39.72330080358783, longitude: -73.35490742108131 } },
+  { name: 'CASA BLANCA', coordinates: { latitude: -39.86196956848248, longitude: -73.1903288605457 } },
+  { name: 'MORROMPULLÍ', coordinates: { latitude: -39.9613487105595, longitude: -73.13845489538724 } },
+  { name: 'SANTO DOMINGO', coordinates: { latitude: -39.81250238254404, longitude: -73.22644104513243 } },
+];
 
 const MapScreen = ({ navigation }) => {
-  const [area, setArea] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedArea, setSelectedArea] = useState(areasMock[0]); // Establece el área predeterminada
 
   const navigateToMenuPrincipal = () => {
     navigation.navigate('MenuPrincipal');
@@ -16,11 +24,11 @@ const MapScreen = ({ navigation }) => {
     <TouchableOpacity
       style={styles.areaItem}
       onPress={() => {
-        setArea(item);
+        setSelectedArea(item);
         setModalVisible(false);
       }}
     >
-      <Text style={styles.areaItemText}>{item}</Text>
+      <Text style={styles.areaItemText}>{item.name}</Text>
     </TouchableOpacity>
   );
 
@@ -38,7 +46,7 @@ const MapScreen = ({ navigation }) => {
           <View style={styles.formField}>
             <Text style={styles.label}></Text>
             <TouchableOpacity style={styles.pickerContainer} onPress={() => setModalVisible(true)}>
-              <Text style={styles.areaText}>{area || 'BONIFACIO'}</Text>
+              <Text style={styles.areaText}>{selectedArea.name}</Text>
             </TouchableOpacity>
             <Modal
               animationType="slide"
@@ -73,38 +81,37 @@ const MapScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-    <View style={styles.mapContainer}>
-    <View style={styles.mapBackground}>
-        <MapView
-        style={styles.map}
-        region={{
-            latitude: -39.8142,
-            longitude: -73.2459,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        }}
-        >
-        <Marker
-            coordinate={{
-            latitude: -39.8142,
-            longitude: -73.2459,
+      <View style={styles.mapContainer}>
+        <View style={styles.mapBackground}>
+          <MapView
+            style={styles.map}
+            region={{
+              latitude: selectedArea.coordinates.latitude,
+              longitude: selectedArea.coordinates.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
             }}
-            title="Valdivia, Chile"
-            description="Aquí estoy"
-        />
-        </MapView>
-    </View>
-    </View>
+          >
+            <Marker
+              coordinate={{
+                latitude: selectedArea.coordinates.latitude,
+                longitude: selectedArea.coordinates.longitude,
+              }}
+              title={`Ubicación en ${selectedArea.name}`}
+              description={`Ubicación en ${selectedArea.name}`}
+            />
+          </MapView>
+        </View>
+      </View>
 
       <View style={styles.form}>
-
         <View style={styles.textInputContainer}>
           <TextInput
             style={styles.textInput}
             placeholder="Nombre"
             placeholderTextColor="#777"
             multiline
-            />
+          />
         </View>
 
         <View style={styles.textInputContainer}>
@@ -113,7 +120,7 @@ const MapScreen = ({ navigation }) => {
             placeholder="RUT"
             placeholderTextColor="#777"
             multiline
-            />
+          />
         </View>
 
         <View style={styles.center}>
@@ -128,15 +135,15 @@ const MapScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   arrowCircle: {
-    width: 50, // Ajusta el ancho según tus necesidades
+    width: 50,
     height: 40,
-    marginLeft:0, // Ajusta la altura según tus necesidades
-    },
-    headerContent: {
-        flexDirection: 'row', // Alinea los elementos horizontalmente
-        alignItems: 'center', // Alinea los elementos verticalmente al centro
-        justifyContent: 'space-between', // Espacia los elementos a lo largo del contenedor
-      },
+    marginLeft: 0,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   container: {
     flex: 1,
     backgroundColor: '#1069B4',
@@ -268,13 +275,12 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 10,
     backgroundColor: 'black',
-    height: 50, // Ajusta la altura según sea necesario
+    height: 50,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    marginBottom: 20, // Espacio entre el TextInput y el próximo elemento
+    marginBottom: 20,
     overflow: 'hidden',
   },
-  
   textInput: {
     fontSize: 16,
     color: 'white',
