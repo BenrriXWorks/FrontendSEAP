@@ -149,10 +149,6 @@ export default function LoginScreen({ navigation }) {
       /* COLOCAR AQUI LA IP DEL SERVIDOR */
       const apiUrl = "http:// - - - /login";
 
-      if (!user || !passw) {
-        console.log("No se ha ingresado información!");
-        return;
-      }
       const requestBody = {
         u: user,
         p: passw,
@@ -167,8 +163,9 @@ export default function LoginScreen({ navigation }) {
       if (!response.ok) {
         throw new Error("Error en la solicitud al backend");
       }
+
       const responseData = await response.json();
-      console.log("Respuesta del servidor:", responseData);
+
       // Aquí puedes realizar acciones adicionales en función de la respuesta
       if (responseData.success) {
         console.log("Inicio de sesión exitoso");
@@ -177,23 +174,28 @@ export default function LoginScreen({ navigation }) {
             await SecureStore.setItemAsync("rut", rut);
             await SecureStore.setItemAsync("password", password);
             console.log("Datos guardados de manera segura.");
-          } catch (error) {
+          } 
+          catch (error) {
             console.error("Error al guardar los datos:", error);
           }
-        } else {
+        } 
+        else {
           try {
             await SecureStore.deleteItemAsync("rut");
             await SecureStore.deleteItemAsync("password");
             console.log("No se guardaran los datos de inicio de sesion");
-          } catch (error) {
+          } 
+          catch (error) {
             console.log("Err: " + error);
           }
         }
         navigation.navigate("MenuPrincipal");
-      } else {
+      } 
+      else {
         Alert.alert("Error de inicio de sesión: ", "RUT o contraseña inválida");
       }
-    } catch (error) {
+    } 
+    catch (error) {
       Alert.alert("Error de inicio de sesión");
       console.log("ERROR:", error);
     }
