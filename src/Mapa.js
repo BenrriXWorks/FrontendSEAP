@@ -30,43 +30,48 @@ const MapScreen = ({ navigation }) => {
         <Text style={styles.headerText}>VER MAPA</Text>
       </View>
 
-      <View style={styles.headerBlue}>
-  <View style={styles.headerContent}>
-    <View style={styles.formField}>
-      <Text style={styles.label}></Text>
-      <TouchableOpacity style={styles.pickerContainer} onPress={() => setModalVisible(true)}>
-        <Text style={styles.areaText}>{area || 'BONIFACIO'}</Text>
-      </TouchableOpacity>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
+      <TouchableOpacity
+        style={styles.headerBlue}
+        onPress={() => setModalVisible(true)}
       >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
-          <View style={styles.modalBackground}>
-            <TouchableWithoutFeedback>
-              <View style={styles.modalContent}>
-                <FlatList
-                  data={areasMock}
-                  renderItem={renderAreaItem}
-                  keyExtractor={(item, index) => index.toString()}
-                />
-              </View>
-            </TouchableWithoutFeedback>
+        <View style={styles.headerContent}>
+          <View style={styles.formField}>
+            <Text style={styles.label}></Text>
+            <TouchableOpacity style={styles.pickerContainer} onPress={() => setModalVisible(true)}>
+              <Text style={styles.areaText}>{area || 'BONIFACIO'}</Text>
+            </TouchableOpacity>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(false);
+              }}
+            >
+              <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                <View style={styles.modalBackground}>
+                  <TouchableWithoutFeedback>
+                    <View style={styles.modalContent}>
+                      <FlatList
+                        data={areasMock}
+                        renderItem={renderAreaItem}
+                        keyExtractor={(item, index) => index.toString()}
+                      />
+                    </View>
+                  </TouchableWithoutFeedback>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </View>
-    <Image
-      source={require('../assets/arrow.png')}
-      style={styles.arrowCircle}
-      resizeMode="contain"
-    />
-  </View>
-</View>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <Image
+              source={require('../assets/arrow.png')}
+              style={styles.arrowCircle}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
 
     <View style={styles.mapContainer}>
     <View style={styles.mapBackground}>
@@ -191,13 +196,15 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 10,
     backgroundColor: 'white',
-    height: 25,
+    height: 50,
     justifyContent: 'center',
-    paddingHorizontal: 50,
+    width: 290,
     overflow: 'hidden',
   },
   areaText: {
     fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 25,
   },
   modalBackground: {
     flex: 1,
