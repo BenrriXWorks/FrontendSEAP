@@ -1,0 +1,98 @@
+     "Sprint 1: Acercamiento inicial"
+-----------------------------------------------
+Frontend:
++ Mover el login de App() a Login.js y llamarlo desde App() (✅)
++ Usar un navigator desde App (✅)
++ Modificar la logica para moverse del login al menu usando el navigator (✅)
++ Completar las funciones de MenuScreen (✅)
++ Guardar datos en local (Como localstorage para el nombre de usuario, rut, etc y leerlo luego) (✅)
++ Completar las pantallas que faltan (✅)
+
+Backend:
++ Implementar Post para login. (✅)
++ Implementar Get para clientes. (✅)
++ Implementar Post para visias. (✅)
+ 
+
+Patricio Lobos — 05/12/2023 0:08
+Las 3 implementaciones del backend listas
+
+
+Benjamin Parra — 07/12/2023 2:30
+   "Sprint 2: Funcionalidades basicas" 
+-----------------------------------------
+{- Este apartado es la base de las funcionalidades -}
++ Implementar el query del login (en linea ~144) (✅)
++ Implementar query de clientes al cargar el menu si hay conexion (✅)
+L-> Guardar tabla clientes desde el menu al cargar usando expo-sqlite (✅)
+{- Nota: Podriamos guardar una tabla con un contador de cuando fue la ultima actualizacion, con solo un campo, o por area, para evitar descargar las tablas todas las veces que se inicie el menu. -}
+
+{- Una vez llenado el sqlite, se pueden hacer busquedas, mientras se puede
+hacer la interfaz o dejando la funcionalidad a medias si no se ha terminado el requisito anterior -}
++ Crear el menu de busqueda de clientes (✅)
++ Crear el menu de seleccionar clientes (ver opciones) (✅)
++ Crear el menu de registrar visitas (✅)
++ Crear el menu de visitas en espera de conexion (✅)
++ Permitir guardar visitas en local con expo-sqlite (✅)
++ Permitir subir visitas del expo-sqlite a la base de datos online (✅)
+
+{- Este apartado debe ser tratado, al menos, parcialmente -}
+Acerca de localizacion {Al menos debemos tener el area para las busquedas}:
+? Guardar coordenadas de Cliente en backend {Con datos inventados} (✅)
+? Implementar interacciones entre coordenadas de sqlite y alguna api de mapas para marcar clientes (❌)
++ Crear el menu de ver mapa {Al menos en duro, si se puede, realizar tareas previas} (❌/✅) -- No funciona
+
+{- Extra -}
++ Colocar modal en el olvide mi contraseña en el login, preguntando el correo y enviando la contraseña (o una manera de restaurarla?) si esta en la base de datos. (❌)
+ 
+
+Benjamin Parra — ayer a las 17:35
+Hoy se deben terminar los siguientes procesos:
+
+
+Proceso REGISTRAR visita:
+  Login -> Validar rut y password (✅)
+  Login -> Pasar a "Menu" (✅)
+  Menu -> Pedir cache de clientes a DB si hay conexion y la version es distinta (✅)
+  Menu -> Crear tabla sqlite de visitas locales si no existia (✅)
+  Menu -> Pasar a "HACER VISITA" (✅)
+  Hacer visita -> Establecer los filtros de busqueda (✅)
+  Hacer visita -> Pasar a "Seleccionar un cliente" con los filtros como un JSON (✅)
+  Seleccionar un cliente -> Recibir los filtros en un JSON de la pagina anterior (✅)
+  Seleccionar un cliente -> Hacer peticion a SQLITE con useEffect usando los filtros del JSON recibido (✅)
+  Seleccionar un cliente -> Guardar los datos recibidos en un arreglo de JSON (✅)
+  Seleccionar un cliente -> Desplegar los resultados del arreglo de JSON (✅)
+  Seleccionar un cliente -> Seleccionar un cliente correctamente (✅)
+  Seleccionar un cliente -> Pasar a "Registrar una visita" con los datos del cliente seleccionado (✅)
+  Registrar una visita -> Leer los datos del cliente recibido (✅)
+  * Registrar una visita (Boton de confirmar):
+      Registrar una visita -> Comprobar que Litros y Clorado esten completados (✅)
+      Registrar una visita -> Insertar en la tabla local SQLITE de Visitas (✅) -- Aqui quedan las visitas que se hagan
+      Registrar una visita -> Pasar a "ConfirmScreen" (✅)
+      ConfirmScreen -> Mostrar que la vista quedo en espera (✅)
+      ConfirmScreen -> Pasar a "Menu" (✅)
+  
+Proceso SUBIR Visita:
+  Menu -> Pasar a "Ver visita en espera"
+  Visitas en espera -> Hacer peticion local de la tabla Visitas de SQLite (✅)
+  Visitas en espera -> Cargar datos recibidos en un arreglo de JSON (✅)
+  Visitas en espera -> Desplegar el arreglo de JSON (✅)
+  * Visitas en espera (Boton confirmar subida):
+      Visitas en espera -> Confirmar que haya conexion (❌)
+      Visitas en espera -> Insertar con la API todas las visitas locales a la tabla en linea (✅)
+    * Si la insercion es correcta:
+        Visitas en espera -> Borrar los datos de la tabla local de visitas de SQLite (✅)
+        Visitas en espera -> Pasar a "ConfirmScreen {state:upload}" (✅)
+        ConfirmScreen -> Pasar a "Menu" (✅)
+    * Sino:
+        Visitas en espera -> Mostrar mensaje de error (❌)
+ 
+
+ 
+Benjamin Parra — ayer a las 17:55
+Requisitos extras:
+  Subir fotos de camara en registrar visitas (❌)
+  Dejar timeout por si no se puede conectar en el LOGIN (❌)
+  Dejar timeout si no se pueden recuperar las tablas online (❌)
+  Dejar timeout si no se pueden actualizar las tablas online (❌)
+  Enviar contraseña al correo ingresado en el modal de "Recuperar contraseña" (❌) -- Falta el modal
