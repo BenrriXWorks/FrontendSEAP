@@ -154,7 +154,7 @@ const MenuScreen = ({ navigation, route }) => {
     try {
       const apiUrl = "http://192.168.8.111:3000/";
       const response = await fetch(apiUrl, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -188,7 +188,7 @@ const MenuScreen = ({ navigation, route }) => {
     });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS visitas (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,RutResponsable VARCHAR(20),RutVecino VARCHAR(20),litros DECIMAL(10, 2),comentario VARCHAR(255),folio VARCHAR(20),fecha DATE,estado VARCHAR(20),clorado BOOLEAN,FOREIGN KEY (RutResponsable) REFERENCES Responsable(Rut),FOREIGN KEY (RutVecino) REFERENCES Vecinos(Rut))",
+        "CREATE TABLE IF NOT EXISTS Visitas2 (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,RutResponsable VARCHAR(20),RutVecino VARCHAR(20),litros DECIMAL(10, 2),comentario VARCHAR(255),folio VARCHAR(20),fecha DATE,estado VARCHAR(20),clorado BOOLEAN,nombre VARCHAR(20),FOREIGN KEY (RutResponsable) REFERENCES Responsable(Rut),FOREIGN KEY (RutVecino) REFERENCES Vecinos(Rut))",
         [],
         (_, result) => {
           console.log("Tabla creada de visitas creada correctamente");
@@ -335,7 +335,7 @@ const MenuScreen = ({ navigation, route }) => {
     });
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM visitas;",
+        "SELECT * FROM Visitas2;",
         [],
         (_, { rows }) => {
           const visitas = rows._array;
