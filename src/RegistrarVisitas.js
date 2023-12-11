@@ -66,12 +66,12 @@ const App = ({ navigation, route }) => {
 
   const guardarVisita = () => {
     obtenerRut();
-    if (litrosValue.replace(/,/g, "") === "") {
-      setLitrosValue(0);
-    }
-    if (cloradoValue.replace(/,/g, "") === "") {
-      setCloradoValue(0);
-    }
+    // if (litrosValue.toString().replaceAll(",", "") === "") {
+    //   setLitrosValue(0);
+    // }
+    // if (cloradoValue.toString().replaceAll(",", "") === "") {
+    //   setCloradoValue(0);
+    // }
     insertData();
     console.log("Visita guardada");
     navigation.navigate("ConfirmScreen", { state: "local" });

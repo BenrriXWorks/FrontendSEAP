@@ -87,7 +87,7 @@ const AppScreen = ({ navigation, route }) => {
   const eliminarVisitaSQLite = (visita) => {
     /* Por mientras elimino del JSON, aqui debes cambiar la logica */
     console.log(visita.ID);
-    borrarFila(visita.nombre);
+    borrarFila(visita.ID);
     /* ----------------------------------------------------------- */
     fetchData();
     Alert.alert("Confirmado!", "Eliminando visita ID: [" + visita.ID + "]");
@@ -190,7 +190,7 @@ const AppScreen = ({ navigation, route }) => {
       (tx) => {
         // Sentencia SQL DELETE
         tx.executeSql(
-          "DELETE FROM Visitas2 WHERE nombre = ?;",
+          "DELETE FROM Visitas2 WHERE ID = ?;",
           [id],
           (tx, resultado) => {
             console.log("Fila borrada correctamente.");
