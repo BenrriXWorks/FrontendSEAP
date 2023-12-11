@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20, // Reducir el tamaño de la fuente a 20
     fontWeight: 'bold',
-    fontFamily: 'Arial',
   },
   form: {
     padding: 20,
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: 'Arial',
     marginBottom: 5
   },
   input: {
@@ -163,8 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white', // Ajusta el color de fondo del Picker
   },
   pickerItem: {
-    fontSize: 18, // Ajusta el tamaño de la fuente según sea necesario
-    fontFamily: 'Arial', // Cambia la fuente a Arial
+    fontSize: 18, // Ajusta el tamaño de la fuente según sea necesario // Cambia la fuente a Arial
     color: 'black', // Cambia el color del texto a negro
     backgroundColor: 'white'
   },
@@ -186,7 +183,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: 'Arial',
   },
   smallButton: {
     backgroundColor: '#EA3B44',
@@ -200,7 +196,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18.4,
     fontWeight: 'bold',
-    fontFamily: 'Arial',
   },
   center: {
     alignItems: 'center',
@@ -241,7 +236,6 @@ const styles = StyleSheet.create({
   },
   areaItemText: {
     fontSize: 25,
-    fontFamily: 'Arial',
   },
 });
 

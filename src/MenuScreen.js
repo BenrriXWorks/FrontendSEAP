@@ -330,7 +330,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "white", // Texto blanco
-    fontFamily: "Arial",
     fontWeight: "bold",
     fontSize: 25, // Ajusta el tamaño de la fuente (puedes cambiar este valor)
     zIndex: 1, // Asegura que el texto esté encima del rectángulo rojo
