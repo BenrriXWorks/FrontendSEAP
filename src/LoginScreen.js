@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Vibration,
   Alert,
+  SafeAreaView,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper"; // Esto tambien? no recuerdo
 import SwitchToggle from "react-native-switch-toggle"; // Instalar esto igual
@@ -97,7 +98,7 @@ function mod11(rutStr) {
 export default function LoginScreen({ navigation }) {
   const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState(null);
+  // const [userName, setUserName] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const [initialSwitchState, setInitialSwitchState] = useState(false);
 
@@ -148,8 +149,6 @@ export default function LoginScreen({ navigation }) {
   const sendRequest = async (user, passw) => {
     try {
       /* COLOCAR AQUI LA IP DEL SERVIDOR */
-
-      /*
       const apiUrl = "http://192.168.8.111:3000/login";
 
       const requestBody = {
@@ -168,9 +167,7 @@ export default function LoginScreen({ navigation }) {
       }
 
       const responseData = await response.json();
-      */
-
-      const responseData = {success:"ok", name:"Javier"};
+      // const responseData = {success:"ok", name:"Javier"};
 
       // Aquí puedes realizar acciones adicionales en función de la respuesta
       if (responseData.success) {
@@ -194,7 +191,7 @@ export default function LoginScreen({ navigation }) {
           }
         }
         navigation.navigate("MenuPrincipal", { name: responseData.name });
-      } 
+      }
     } catch (error) {
       Alert.alert("Error de inicio de sesión");
       console.log("ERROR:", error);

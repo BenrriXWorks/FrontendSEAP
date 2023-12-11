@@ -1,12 +1,17 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import * as SQLite from "expo-sqlite";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+} from "react-native";
+import db from "../components/database";
 
 const MenuScreen = ({ navigation, route }) => {
   const [name, setName] = useState("");
-
-  const db = SQLite.openDatabase("cacheLocal.db"); // Crea db
 
   useEffect(() => {
     createTable(); // Crea las tablas
@@ -93,6 +98,8 @@ const MenuScreen = ({ navigation, route }) => {
 
   const updateTable = async (newVersion) => {
     requestVecinos();
+    requestVisitas();
+    requestUltimaVisita();
     console.log("Actualizando la tabla a la versión:", newVersion);
   };
 
@@ -113,7 +120,53 @@ const MenuScreen = ({ navigation, route }) => {
 
       const responseData = await response.json();
 
-      insertData(responseData);
+      // console.log(responseData);
+
+      insertDataCache(responseData);
+    } catch (error) {
+      console.log("ERROR:", error);
+    }
+  };
+
+  const requestUltimaVisita = async () => {
+    try {
+      const apiUrl = "http://192.168.8.111:3000/lastVisits";
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en la solicitud al backend");
+      }
+
+      const responseData = await response.json();
+
+      insertDataUltimaVisita(responseData);
+    } catch (error) {
+      console.log("ERROR:", error);
+    }
+  };
+
+  const requestVisitas = async () => {
+    try {
+      const apiUrl = "http://192.168.8.111:3000/";
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error en la solicitud al backend");
+      }
+
+      const responseData = await response.json();
+
+      // insertDataCache(responseData);
     } catch (error) {
       console.log("ERROR:", error);
     }
@@ -123,13 +176,25 @@ const MenuScreen = ({ navigation, route }) => {
   const createTable = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cache (Rut VARCHAR(20) PRIMARY KEY, grupo_familiar VARCHAR(50),referencia VARCHAR(100),nombre VARCHAR(50),telefono VARCHAR(15),fsh INT,activo BOOLEAN,litro DECIMAL(10, 2),propiedad_estanque VARCHAR(50),coordenadas VARCHAR(50),IDArea INT,FOREIGN KEY (IDArea) REFERENCES Area(ID))",
+        "CREATE TABLE IF NOT EXISTS vecinos (Rut VARCHAR(20) PRIMARY KEY, grupo_familiar VARCHAR(50),referencia VARCHAR(100),nombre VARCHAR(50),telefono VARCHAR(15),fsh INT,activo BOOLEAN,litro DECIMAL(10, 2),propiedad_estanque VARCHAR(50),coordenadas VARCHAR(50),ultimaFecha DATE,IDArea INT,FOREIGN KEY (IDArea) REFERENCES Area(ID))",
         [],
         (_, result) => {
           console.log("Tabla creada de cache creada correctamente");
         },
         (_, error) => {
-          console.error("Error al crear la tabla", error);
+          console.error("Error al crear la tabla cache", error);
+        }
+      );
+    });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS visitas (ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,RutResponsable VARCHAR(20),RutVecino VARCHAR(20),litros DECIMAL(10, 2),comentario VARCHAR(255),folio VARCHAR(20),fecha DATE,estado VARCHAR(20),clorado BOOLEAN,FOREIGN KEY (RutResponsable) REFERENCES Responsable(Rut),FOREIGN KEY (RutVecino) REFERENCES Vecinos(Rut))",
+        [],
+        (_, result) => {
+          console.log("Tabla creada de visitas creada correctamente");
+        },
+        (_, error) => {
+          console.error("Error al crear la tabla visitas", error);
         }
       );
     });
@@ -145,10 +210,22 @@ const MenuScreen = ({ navigation, route }) => {
         }
       );
     });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS ultimaVisita (RutVecino VARCHAR(20) PRIMARY KEY,FechaVisita DATE)",
+        [],
+        (_, result) => {
+          console.log("Tabla de ultimaVisita creada correctamente");
+        },
+        (_, error) => {
+          console.error("Error al crear la tabla de ultimaVisita", error);
+        }
+      );
+    });
   };
 
   // Actualiza la informacion de la tabla vecinos
-  const insertData = (jsonDataArray) => {
+  const insertDataCache = (jsonDataArray) => {
     jsonDataArray.forEach((jsonData) => {
       const {
         Rut,
@@ -161,12 +238,13 @@ const MenuScreen = ({ navigation, route }) => {
         litro,
         propiedad_estanque,
         coordenadas,
+        ultimaFecha,
         IDArea,
       } = jsonData;
 
       db.transaction((tx) => {
         tx.executeSql(
-          "INSERT OR REPLACE INTO cache (Rut, grupo_familiar, referencia, nombre, telefono, fsh, activo, litro, propiedad_estanque, coordenadas, IDArea) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+          "INSERT OR REPLACE INTO vecinos (Rut, grupo_familiar, referencia, nombre, telefono, fsh, activo, litro, propiedad_estanque, coordenadas,ultimaFecha, IDArea) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
           [
             Rut,
             grupo_familiar,
@@ -178,8 +256,29 @@ const MenuScreen = ({ navigation, route }) => {
             litro,
             propiedad_estanque,
             coordenadas,
+            ultimaFecha,
             IDArea,
           ],
+          (_, result) => {
+            console.log("Datos insertados correctamente");
+          },
+          (_, error) => {
+            console.error("Error al insertar datos", error);
+          }
+        );
+      });
+    });
+  };
+
+  // Actualiza la informacion de la tabla vecinos
+  const insertDataUltimaVisita = (jsonDataArray) => {
+    jsonDataArray.forEach((jsonData) => {
+      const { IDVisita, RutVecino, FechaVisita } = jsonData;
+
+      db.transaction((tx) => {
+        tx.executeSql(
+          "INSERT OR REPLACE INTO ultimaVisita (RutVecino ,FechaVisita) VALUES (?,?)",
+          [RutVecino, FechaVisita],
           (_, result) => {
             console.log("Datos insertados correctamente");
           },
@@ -195,7 +294,7 @@ const MenuScreen = ({ navigation, route }) => {
   const fetchData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM cache",
+        "SELECT * FROM vecinos",
         [],
         (_, result) => {
           const rows = result.rows;
@@ -217,6 +316,7 @@ const MenuScreen = ({ navigation, route }) => {
                 litro: row.litro,
                 propiedad_estanque: row.propiedad_estanque,
                 coordenadas: row.coordenadas,
+                ultimaFecha: row.ultimaFecha,
                 IDArea: row.IDArea,
               };
 
@@ -230,6 +330,32 @@ const MenuScreen = ({ navigation, route }) => {
         },
         (_, error) => {
           console.error("Error al obtener datos", error);
+        }
+      );
+    });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM visitas;",
+        [],
+        (_, { rows }) => {
+          const visitas = rows._array;
+          console.log("Visitas:", visitas);
+        },
+        (_, error) => {
+          console.error("Error al seleccionar visitas:", error);
+        }
+      );
+    });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM ultimaVisita;",
+        [],
+        (_, { rows }) => {
+          const resultadoss = rows._array;
+          console.log("ultimaVisita:", resultadoss);
+        },
+        (_, error) => {
+          console.error("Error al seleccionar ultimasVisitas:", error);
         }
       );
     });
@@ -271,7 +397,7 @@ const MenuScreen = ({ navigation, route }) => {
           <View style={styles.headerTextAndImage}>
             <Text style={styles.headerText}>SEAP</Text>
             <Image
-              source={require('../assets/water-drop.png')}
+              source={require("../assets/water-drop.png")}
               style={styles.waterDropImage}
             />
           </View>
@@ -280,12 +406,18 @@ const MenuScreen = ({ navigation, route }) => {
       <View style={styles.content}>
         <Text style={styles.title}>
           BIENVENIDO
-          <Text style={{ color: 'orange' }}> {name.split(' ')[0].toUpperCase()}</Text>
+          <Text style={{ color: "orange" }}>
+            {" "}
+            {name.split(" ")[0].toUpperCase()}
+          </Text>
         </Text>
         <TouchableOpacity style={styles.button} onPress={handleHacerVisita}>
           <Text style={styles.buttonText}>HACER VISITA</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleVerVisitasEnEspera}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleVerVisitasEnEspera}
+        >
           <Text style={styles.buttonText}>VER VISITAS EN ESPERA</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleVerMapa}>
@@ -295,11 +427,13 @@ const MenuScreen = ({ navigation, route }) => {
           style={[
             styles.button,
             styles.cerrarSesionButton,
-            { backgroundColor: '#EA3B44', width: '50%' },
+            { backgroundColor: "#EA3B44", width: "50%" },
           ]}
           onPress={handleCerrarSesion}
         >
-          <Text style={[styles.buttonText, { color: 'white' }]}>Cerrar Sesión</Text>
+          <Text style={[styles.buttonText, { color: "white" }]}>
+            Cerrar Sesión
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -309,71 +443,71 @@ const MenuScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: '#1069B4',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "#1069B4",
   },
   header: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#EA3B44',
+    backgroundColor: "#EA3B44",
     padding: 10,
-    height: '18.4%', // El header ocupa el 20% de la pantalla verticalmente
-    flexDirection: 'row',
-    alignItems: 'flex-end', // Alinea los elementos al extremo inferior
-    justifyContent: 'flex-end', // Alinea los elementos al extremo derecho
+    height: "18.4%", // El header ocupa el 20% de la pantalla verticalmente
+    flexDirection: "row",
+    alignItems: "flex-end", // Alinea los elementos al extremo inferior
+    justifyContent: "flex-end", // Alinea los elementos al extremo derecho
   },
   redRectangle: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    height: '100%', // Ocupa toda la altura del SafeAreaView
-    backgroundColor: '#EA3B44',
+    height: "100%", // Ocupa toda la altura del SafeAreaView
+    backgroundColor: "#EA3B44",
   },
   headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerTextAndImage: {
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 25,
     marginRight: 5, // Ajusta el espacio entre el texto y la imagen
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    color: 'white',
+    color: "white",
   },
   button: {
-    backgroundColor: '#09b355',
+    backgroundColor: "#09b355",
     borderRadius: 40,
     padding: 30,
     marginBottom: 10,
-    width: '80%',
-    alignItems: 'center',
+    width: "80%",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 18,
   },
   cerrarSesionButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   waterDropImage: {
     width: 60,
