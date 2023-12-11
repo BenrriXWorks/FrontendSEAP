@@ -272,7 +272,10 @@ const MenuScreen = ({ navigation, route }) => {
           style={styles.waterDropImage}
         />
       </View>
-      <Text style={styles.title}>BIENVENIDO {name}</Text>
+      <Text style={styles.title}>
+        BIENVENIDO 
+        <Text style={{ color: 'orange' }}> {name.split(' ')[0].toUpperCase()}</Text>
+      </Text>
       <TouchableOpacity style={styles.button} onPress={handleHacerVisita}>
         <Text style={styles.buttonText}>HACER VISITA</Text>
       </TouchableOpacity>
@@ -289,7 +292,7 @@ const MenuScreen = ({ navigation, route }) => {
         style={[
           styles.button,
           styles.cerrarSesionButton,
-          { backgroundColor: "#EA3B44", width: "45%" },
+          { backgroundColor: "#EA3B44", width: "50%" },
         ]}
         onPress={handleCerrarSesion}
       >
@@ -349,7 +352,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white", // Color del texto del botón
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 18,
   },
   cerrarSesionButton: {
     position: "absolute",

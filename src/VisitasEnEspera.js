@@ -162,7 +162,7 @@ const AppScreen = ({ navigation, route }) => {
                         >
                            {/* Despliegue de informacion */}
                             <View style={{ flex: 1, borderRadius: 15, padding: 5 }}>
-                            <Text style={{ fontWeight: 'bold' }}>{`${cliente.Cliente}\n${cliente.RutVecino}\nEntrega: ${cliente.litros} [L]\nClorado: ${cliente.clorado} [mg/L]`}</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{`${cliente.Cliente}\n${cliente.RutVecino}\nEntrega: ${cliente.litros} [L]\nClorado: ${cliente.clorado} [mg/L]`}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Text style={{ color: 'blue', textAlign: 'center', flex: 1, fontWeight: 'bold' }}>{cliente.estado}</Text>
                                 <Text style={{ textAlign: 'right', fontWeight: 'bold' }}>{cliente.fecha}</Text>

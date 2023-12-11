@@ -69,7 +69,7 @@ const App = ({ navigation }) => {
         <View style={styles.formField}>
           <Text style={styles.label}>ÁREA</Text>
           <TouchableOpacity style={styles.pickerContainer} onPress={() => setModalVisible(true)}>
-            <Text style={styles.areaText}>{area}</Text>
+            <Text style={{ fontSize: 25 }}>{area}</Text>
           </TouchableOpacity>
 
           <Modal
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     height: 50,
     paddingHorizontal: 10,
     borderRadius: 10,
+    fontSize: 25
   },
   pickerContainer: {
     borderWidth: 1,
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
 
   largeButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     fontFamily: 'Arial',
   },
@@ -191,13 +192,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#EA3B44',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 35,
+    height: 45,
     borderRadius: 25,
     width: "40%",
   },
   smallButtonText: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 18.4,
     fontWeight: 'bold',
     fontFamily: 'Arial',
   },
@@ -238,13 +239,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '80%',
   },
-  areaItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
   areaItemText: {
-    fontSize: 18,
+    fontSize: 25,
     fontFamily: 'Arial',
   },
 });

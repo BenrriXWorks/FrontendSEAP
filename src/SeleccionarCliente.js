@@ -122,7 +122,7 @@ const AppScreen = ({ navigation, route }) => {
                             }}
                         >
                             <View style={{ flex: 1, borderRadius: 15, padding: 5 }}>
-                            <Text style={{ fontWeight: 'bold' }}>{`${cliente.nombre}\n${cliente.rut}\n${cliente.telefono}\n${cliente.direccion}`}</Text>
+                            <Text style={{ fontSize: 16.5, fontWeight: 'bold' }}>{`${cliente.nombre}\n${cliente.rut}\n${cliente.telefono}\n${cliente.direccion}`}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Text style={{ color: 'blue', textAlign: 'center', flex: 1, fontWeight: 'bold' }}>{cliente.area}</Text>
                                 <Text style={{ textAlign: 'right', fontWeight: 'bold' }}>{cliente.estado}</Text>
