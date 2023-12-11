@@ -9,6 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import db from "../components/database";
+import {URL_ENDPOINTS} from "@env";
 
 const MenuScreen = ({ navigation, route }) => {
   const [name, setName] = useState("");
@@ -64,7 +65,7 @@ const MenuScreen = ({ navigation, route }) => {
   // Consulta al backend la version y ejecuta la accion correspondiente
   const requestAndUpdateTable = async () => {
     try {
-      const apiUrl = "http://192.168.8.111:3000/lastVersion";
+      const apiUrl = URL_ENDPOINTS+"/lastVersion";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -106,7 +107,7 @@ const MenuScreen = ({ navigation, route }) => {
   // Obtiene la tabla de vecinos y Actualiza la tabla local
   const requestVecinos = async () => {
     try {
-      const apiUrl = "http://192.168.8.111:3000/";
+      const apiUrl = URL_ENDPOINTS+"/";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -130,7 +131,7 @@ const MenuScreen = ({ navigation, route }) => {
 
   const requestUltimaVisita = async () => {
     try {
-      const apiUrl = "http://192.168.8.111:3000/lastVisits";
+      const apiUrl = URL_ENDPOINTS+"/lastVisits";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -152,7 +153,7 @@ const MenuScreen = ({ navigation, route }) => {
 
   const requestVisitas = async () => {
     try {
-      const apiUrl = "http://192.168.8.111:3000/";
+      const apiUrl = URL_ENDPOINTS+"/";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {

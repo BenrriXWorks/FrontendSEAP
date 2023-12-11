@@ -64,17 +64,24 @@ const App = ({ navigation, route }) => {
     setFecha(fechaFormateada);
   }, []);
 
+  function validarNumeroDecimal(input) {
+    let inputPunto = input.replaceAll(',','.');
+    console.log(inputPunto)
+    let count = 0;
+    for (var i=0; i<input.length; i++) 
+      if (inputPunto.at(i) === "." && count++) return false; 
+    const numero = parseFloat(inputPunto); // Reemplaza la coma por un punto y convierte a número
+    return (!isNaN(numero) && isFinite(numero));
+  }
+
   const guardarVisita = () => {
     obtenerRut();
-    // if (litrosValue.toString().replaceAll(",", "") === "") {
-    //   setLitrosValue(0);
-    // }
-    // if (cloradoValue.toString().replaceAll(",", "") === "") {
-    //   setCloradoValue(0);
-    // }
-    insertData();
-    console.log("Visita guardada");
-    navigation.navigate("ConfirmScreen", { state: "local" });
+    if(validarNumeroDecimal(litrosValue.toString()) && validarNumeroDecimal(cloradoValue.toString())){
+      insertData();
+      console.log("Visita guardada");
+      navigation.navigate("ConfirmScreen", { state: "local" });
+    }
+    else Alert.alert("Faltan datos necesarios:", "Debes ingresar los datos de cloracion y litros entregados");
   };
 
   const insertData = () => {
@@ -282,7 +289,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "bold",
-    fontFamily: "Arial",
   },
   form: {
     padding: 20,
@@ -294,7 +300,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-    fontFamily: "Arial",
     marginBottom: 5,
     paddingTop: 10,
   },
@@ -348,7 +353,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-    fontFamily: "Arial",
   },
   smallButton: {
     backgroundColor: "#EA3B44",
@@ -363,7 +367,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     fontWeight: "bold",
-    fontFamily: "Arial",
   },
 
   inputText: {
@@ -374,7 +377,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     fontSize: 18,
-    fontFamily: "Arial",
   },
   modalBackground: {
     flex: 1,
@@ -395,7 +397,6 @@ const styles = StyleSheet.create({
   },
   estadoItemText: {
     fontSize: 18,
-    fontFamily: "Arial",
   },
 });
 

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient"; // Instalar expo install expo-linear-gradient
 import db from "../components/database";
+import {URL_ENDPOINTS} from '@env';
 
 // Ejemplo de arreglo de clientes
 // var clientes = [
@@ -138,7 +139,7 @@ const AppScreen = ({ navigation, route }) => {
   const subirVisita = async (data) => {
     try {
       console.log(data);
-      const apiUrl = "http://192.168.8.111:3000/";
+      const apiUrl = URL_ENDPOINTS+"/";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -153,7 +154,7 @@ const AppScreen = ({ navigation, route }) => {
 
       const responseData = await response.json();
       console.log("Respuesta del servidor:", responseData);
-
+      db.transaction ((tx)=>{tx.executeSql(`DELETE FROM visitas2`)});
       // insertDataCache(responseData);
     } catch (error) {
       console.log("ERROR:", error);

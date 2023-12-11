@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 import { TextInput, Button } from "react-native-paper"; // Esto tambien? no recuerdo
 import SwitchToggle from "react-native-switch-toggle"; // Instalar esto igual
 import * as SecureStore from "expo-secure-store"; // Aqui se necesita instalar expo-secure-store
-
+import {URL_ENDPOINTS} from "@env";
 // Formateador de rut
 const RutInput = ({ rut, setRut }) => {
   const [inputRut, setInputRut] = React.useState("");
@@ -112,7 +112,7 @@ export default function LoginScreen({ navigation }) {
         const storedRut = await SecureStore.getItemAsync("rut");
         const storedPassword = await SecureStore.getItemAsync("password");
 
-        if (storedRut && storedPassword) {
+        if (rememberMe) {
           setRut(() => storedRut); // Actualiza el estado del RUT
           setPassword(storedPassword);
           setRememberMe(true); // Se coloca el toggle prendido
@@ -149,7 +149,7 @@ export default function LoginScreen({ navigation }) {
   const sendRequest = async (user, passw) => {
     try {
       /* COLOCAR AQUI LA IP DEL SERVIDOR */
-      const apiUrl = "http://192.168.8.111:3000/login";
+      const apiUrl = URL_ENDPOINTS+"/login";
 
       const requestBody = {
         u: user,
@@ -172,9 +172,9 @@ export default function LoginScreen({ navigation }) {
       // Aquí puedes realizar acciones adicionales en función de la respuesta
       if (responseData.success) {
         console.log("Inicio de sesión exitoso");
+        await SecureStore.setItemAsync("rut", rut);
         if (rememberMe) {
           try {
-            await SecureStore.setItemAsync("rut", rut);
             await SecureStore.setItemAsync("password", password);
             //await SecureStore.setItemAsync("name", { userName });
             console.log("Datos guardados de manera segura.");
@@ -183,13 +183,13 @@ export default function LoginScreen({ navigation }) {
           }
         } else {
           try {
-            await SecureStore.deleteItemAsync("rut");
             await SecureStore.deleteItemAsync("password");
             console.log("No se guardaran los datos de inicio de sesion");
           } catch (error) {
             console.log("Err: " + error);
           }
         }
+        
         navigation.navigate("MenuPrincipal", { name: responseData.name });
       }
     } catch (error) {
