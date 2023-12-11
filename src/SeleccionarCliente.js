@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient"; // Instalar expo install 
 import db from "../components/database";
 
 // Ejemplo de arreglo de clientes
-const clientes = [
+var clientes = [
   {
     nombre: "Roberto Javier Parra Candia",
     rut: "1.222.333-4",
@@ -66,6 +66,11 @@ const clientes = [
   // Puedes agregar más objetos de clientes según sea necesario
 ];
 
+const nombreAreas = {
+  1:"Morrompulli",
+  2:"Las gaviotas"
+}
+
 const AppScreen = ({ navigation, route }) => {
   const [selectedCliente, setSelectedCliente] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,6 +102,7 @@ const AppScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     // Validar campos no nulos en el objeto filtro
+    console.log(searchInfo);
     const camposFiltro = Object.entries(searchInfo)
       .filter(
         ([key, value]) =>
@@ -105,7 +111,7 @@ const AppScreen = ({ navigation, route }) => {
           value !== "" &&
           !(key === "area" && value === "Todas") // Si areas es "Todas" la toma como null
       )
-      .map(([key, value]) => `${key} = '${value}'`)
+      .map(([key, value]) => {return key != "nombre" ? `${key} = '${value}'` : `nombre LIKE '%${value}%'` })
       .join(" AND ");
 
     const todosValoresSonNull = camposFiltro.length === 0;
@@ -118,13 +124,14 @@ const AppScreen = ({ navigation, route }) => {
           (_, { rows }) => {
             const resultados = rows._array;
             setClientes(resultados);
-            console.log("Resultados del filtro:", resultados);
+            //console.log("Resultados del filtro:", resultados);
           },
           (_, error) => {
             console.error("Error al realizar la consulta:", error);
           }
         );
       });
+
     } else {
       console.log("los filtros no son null");
       db.transaction((tx) => {
@@ -141,7 +148,15 @@ const AppScreen = ({ navigation, route }) => {
           }
         );
       });
-    }
+    };
+
+    /*
+    clientes.forEach((cliente)=>{
+      cliente.area = nombreAreas.cliente.area; console.log(cliente.area);
+    })
+    */
+    //for (let o in clientes) console.log(clientes[o].area);
+
   }, [searchInfo]);
 
   return (
@@ -220,7 +235,7 @@ const AppScreen = ({ navigation, route }) => {
                             fontWeight: "bold",
                           }}
                         >
-                          {cliente.IDArea}
+                          { nombreAreas[cliente.IDArea] /* Imprimir el nombre del area */}
                         </Text>
                         <Text
                           style={{ textAlign: "right", fontWeight: "bold" }}

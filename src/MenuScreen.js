@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import db from "../components/database";
 import { URL_ENDPOINTS } from "@env";
+import * as SecureStore from "expo-secure-store";
 
 const MenuScreen = ({ navigation, route }) => {
   const [name, setName] = useState("");
@@ -21,45 +22,23 @@ const MenuScreen = ({ navigation, route }) => {
 
   // Obtiene la version local de la tabla
   const getLocalVersion = async () => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "SELECT version FROM local_version LIMIT 1",
-          [],
-          (_, result) => {
-            const rows = result.rows;
-
-            if (rows.length > 0) {
-              const firstRow = rows.item(0);
-              resolve(firstRow.version);
-            } else {
-              resolve(null);
-            }
-          },
-          (_, error) => {
-            reject(error);
-          }
-        );
-      });
-    });
+    try {
+      const ver = await SecureStore.getItemAsync("Version");
+      return !ver ? -1 : ver;
+    } 
+    catch (e) {
+      return -1;
+    }
   };
 
   // Actualiza la version local de la tabla
   const saveLocalVersion = async (version) => {
-    return new Promise((resolve, reject) => {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "INSERT OR REPLACE INTO local_version (id, version) VALUES (1, ?)",
-          [version],
-          (_, result) => {
-            resolve();
-          },
-          (_, error) => {
-            reject(error);
-          }
-        );
-      });
-    });
+    try {
+      const versionString = JSON.stringify(version); // Convertir a cadena si no lo es
+      await SecureStore.setItemAsync("Version", versionString);
+    } catch (e) {
+      console.log("No se pudo guardar la nueva versión: " + version);
+    }
   };
 
   // Consulta al backend la version y ejecuta la accion correspondiente
@@ -120,11 +99,12 @@ const MenuScreen = ({ navigation, route }) => {
       }
 
       const responseData = await response.json();
-
-      // console.log(responseData);
+      console.log("responseData requestVecinos: " + JSON.stringify(responseData));
+      console.log(responseData);
 
       insertDataCache(responseData);
     } catch (error) {
+      console.log("Error en la funcion requestVecinos");
       console.log("ERROR:", error);
     }
   };
@@ -244,6 +224,8 @@ const MenuScreen = ({ navigation, route }) => {
       } = jsonData;
 
       db.transaction((tx) => {
+
+        //tx.executeSql("DELETE FROM Vecinos");
         tx.executeSql(
           "INSERT OR REPLACE INTO vecinos (Rut, grupo_familiar, referencia, nombre, telefono, fsh, activo, litro, propiedad_estanque, coordenadas,ultimaFecha, IDArea) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
           [

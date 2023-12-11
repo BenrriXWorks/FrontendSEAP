@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Animated, Easing } from 'react-native';
+import SecureStore from "expo-secure-store";
 
 /* Si recibe en route {state:'upload'} borra el subtitulo y cambia el titulo */
 
@@ -35,12 +36,21 @@ const App = ({ navigation, route }) => {
   }, [logoAnimation]);
 
   useEffect(() => {
+
+    try {
+      SecureStore.setItemAsync("Version", -1);
+    }
+    catch(e){
+      console.log("No se pudo invaldar la cache");
+    }
+
     Animated.timing(textAnimation, {
       toValue: 1,
       duration: 800,
       useNativeDriver: true,
       easing: Easing.ease,
     }).start();
+    
   }, [textAnimation]);
 
   const rotateAnimation = logoAnimation.interpolate({

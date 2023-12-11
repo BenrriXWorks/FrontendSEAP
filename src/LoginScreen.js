@@ -111,8 +111,9 @@ export default function LoginScreen({ navigation }) {
       try {
         const storedRut = await SecureStore.getItemAsync("rut");
         const storedPassword = await SecureStore.getItemAsync("password");
+        const rememberMeSaved = await SecureStore.getItemAsync("rememberMe");
 
-        if (rememberMe) {
+        if (!rememberMeSaved || rememberMeSaved == "false") {
           setRut(() => storedRut); // Actualiza el estado del RUT
           setPassword(storedPassword);
           setRememberMe(true); // Se coloca el toggle prendido
@@ -162,6 +163,8 @@ export default function LoginScreen({ navigation }) {
         },
         body: JSON.stringify(requestBody),
       });
+      //console.log("fetch realizado: " + JSON.stringify(response));
+      //console.log("ResponseData: " + JSON.stringify(await response.json()));
       if (!response.ok) {
         throw new Error("Error en la solicitud al backend");
       }
@@ -176,6 +179,7 @@ export default function LoginScreen({ navigation }) {
         if (rememberMe) {
           try {
             await SecureStore.setItemAsync("password", password);
+            await SecureStore.setItemAsync("rememeberMe", "true");
             //await SecureStore.setItemAsync("name", { userName });
             console.log("Datos guardados de manera segura.");
           } catch (error) {
@@ -184,6 +188,7 @@ export default function LoginScreen({ navigation }) {
         } else {
           try {
             await SecureStore.deleteItemAsync("password");
+            await SecureStore.setItemAsync("rememeberMe", "false");
             console.log("No se guardaran los datos de inicio de sesion");
           } catch (error) {
             console.log("Err: " + error);
@@ -191,6 +196,8 @@ export default function LoginScreen({ navigation }) {
         }
         
         navigation.navigate("MenuPrincipal", { name: responseData.name });
+      }else{
+        Alert.alert("Error de inicio de sesión, usuario o contraseña incorrecto");
       }
     } catch (error) {
       Alert.alert("Error de inicio de sesión");
