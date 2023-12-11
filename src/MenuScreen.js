@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import db from "../components/database";
-import {URL_ENDPOINTS} from "@env";
+import { URL_ENDPOINTS } from "@env";
 
 const MenuScreen = ({ navigation, route }) => {
   const [name, setName] = useState("");
@@ -65,7 +65,7 @@ const MenuScreen = ({ navigation, route }) => {
   // Consulta al backend la version y ejecuta la accion correspondiente
   const requestAndUpdateTable = async () => {
     try {
-      const apiUrl = URL_ENDPOINTS+"/lastVersion";
+      const apiUrl = URL_ENDPOINTS + "/lastVersion";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -107,7 +107,7 @@ const MenuScreen = ({ navigation, route }) => {
   // Obtiene la tabla de vecinos y Actualiza la tabla local
   const requestVecinos = async () => {
     try {
-      const apiUrl = URL_ENDPOINTS+"/";
+      const apiUrl = URL_ENDPOINTS + "/";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -131,7 +131,7 @@ const MenuScreen = ({ navigation, route }) => {
 
   const requestUltimaVisita = async () => {
     try {
-      const apiUrl = URL_ENDPOINTS+"/lastVisits";
+      const apiUrl = URL_ENDPOINTS + "/lastVisits";
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
@@ -153,7 +153,7 @@ const MenuScreen = ({ navigation, route }) => {
 
   const requestVisitas = async () => {
     try {
-      const apiUrl = URL_ENDPOINTS+"/";
+      const apiUrl = URL_ENDPOINTS + "/";
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -239,7 +239,7 @@ const MenuScreen = ({ navigation, route }) => {
         litro,
         propiedad_estanque,
         coordenadas,
-        ultimaFecha,
+        UltimaFecha,
         IDArea,
       } = jsonData;
 
@@ -257,7 +257,7 @@ const MenuScreen = ({ navigation, route }) => {
             litro,
             propiedad_estanque,
             coordenadas,
-            ultimaFecha,
+            UltimaFecha,
             IDArea,
           ],
           (_, result) => {
